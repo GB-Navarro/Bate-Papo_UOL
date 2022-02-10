@@ -1,8 +1,8 @@
 let promisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
 
-function getMesssages(){
+function getMessages(){
     let promisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
-    promisse.then
+    promisse.then(console.log(promisse));
 }
 
 setTimeout(getMessages, 3000);
