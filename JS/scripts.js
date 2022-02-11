@@ -8,8 +8,8 @@ function getErrorTreatment(erro){
 
 
 let arrayMessages = [];
-let elemento = document.querySelector("main");
-console.log(elemento);
+let element = document.querySelector("main");
+console.log(element);
 
 function getMessages(promisseResponse){
     for(let i = 0; i < promisseResponse.data.length; i++){
@@ -24,11 +24,11 @@ function populateMessages(messages){
     //Quebrar essa função em uma função diferente para cada tipo de mensagem
     for(let i =0; i < messages.length; i++){
         if(messages[i].to == "Todos" || messages[i].to == "todos"){
-            messagesToAll(elemento, messages[i]);
+            messagesToAll(element, messages[i]);
         }else if(messages[i].text == "entra na sala ..." || messages[i].text == "sai da sala ..."){
-            messagesEntryOrOut(elemento, messages[i]);
+            messagesEntryOrOut(element, messages[i]);
         }else{
-            messagesToOne(elemento, messages[i]);
+            messagesToOne(element, messages[i]);
         }
     }
 }
@@ -39,8 +39,8 @@ function getNewMessages(){
 }
 //setInterval(getNewMessages, 3000);
 
-function messagesToAll(elemento, messageAll){
-    elemento.innerHTML += 
+function messagesToAll(element, messageAll){
+    element.innerHTML += 
             `
             <div class="message_to_all">
                 <p> 
@@ -54,8 +54,8 @@ function messagesToAll(elemento, messageAll){
             `
 }
 
-function messagesEntryOrOut(elemento, messageEntryOut){
-    elemento.innerHTML += 
+function messagesEntryOrOut(element, messageEntryOut){
+    element.innerHTML += 
             `
             <div class="room_entryORout">
                 <p> 
@@ -67,8 +67,8 @@ function messagesEntryOrOut(elemento, messageEntryOut){
             `
 }
 
-function messagesToOne(elemento, messageOne){
-    elemento.innerHTML +=
+function messagesToOne(element, messageOne){
+    element.innerHTML +=
     `
     <div class="message_to_one">
         <p> 
@@ -83,16 +83,31 @@ function messagesToOne(elemento, messageOne){
 }
 
 let user = {name: ""};
-user.nome = prompt("Qual é o seu nome ?");
+user.name = prompt("Qual é o seu nome ?");
 let request = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants", user);
 request.then(requestAcepted);
 
 request.catch(postErrorTreatment)
 function postErrorTreatment(error){
-    alert("Deu XABU no post meu consagrado, resolve ai!"); //XABU PRA RESOLVER
+    if(error.status === 409){
+        alert("Esse nome já está sendo usado, tente novamente com outro nome");
+    }
 }
 
 function requestAcepted(requestResponse){
+    if(requestResponse.status === 200){
+        element.innerHTML += 
+        `
+        <div class="room_entryORout">
+            <p> 
+                <span class="message_time"> (09:21:45) </span> 
+                <span class="from"> ${user.name} </span> 
+                <span class="message_type"> entra na sala... </span> 
+            </p>
+        </div>
+        `
+        
+    }
     console.log(requestResponse);
 }
 
