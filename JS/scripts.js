@@ -21,7 +21,6 @@ function getMessages(promisseResponse){
 }
 
 function populateMessages(messages){
-    //Quebrar essa função em uma função diferente para cada tipo de mensagem
     for(let i =0; i < messages.length; i++){
         if(messages[i].to == "Todos" || messages[i].to == "todos"){
             messagesToAll(element, messages[i]);
@@ -90,7 +89,7 @@ request.then(requestAcepted);
 request.catch(postErrorTreatment)
 function postErrorTreatment(error){
     if(error.status === 409){
-        alert("Esse nome já está sendo usado, tente novamente com outro nome");
+        alert("Esse nome já está sendo usado, tente novamente com outro nome"); //CONFERIR
     }
 }
 
@@ -106,9 +105,7 @@ function requestAcepted(requestResponse){
             </p>
         </div>
         `
-        
     }
-    console.log(requestResponse);
 }
 
 let inputBar = document.querySelector(".input_bar input");
@@ -116,3 +113,25 @@ let inputBar = document.querySelector(".input_bar input");
 function getUserText(){
     console.log(inputBar); //XABU PRA RESOLVER
 }
+
+function checkUserStatus(user){
+    let statusResponse = axios.post("https://mock-api.driven.com.br/api/v4/uol/status", user);
+    statusResponse.then(userOn);
+    statusResponse.catch(userOff(user));
+}
+function userOn(){
+    console.log("O usuário continua na sala");
+}
+function userOff(user){
+    element.innerHTML += 
+        `
+        <div class="room_entryORout">
+            <p> 
+                <span class="message_time"> (09:21:45) </span> 
+                <span class="from"> ${user.name} </span> 
+                <span class="message_type"> sai da sala... </span> 
+            </p>
+        </div>
+        `
+}
+setInterval(checkUserStatus(user), 5000);
