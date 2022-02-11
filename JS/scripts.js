@@ -89,9 +89,15 @@ request.then(requestAcepted);
 
 request.catch(postErrorTreatment)
 function postErrorTreatment(error){
-    alert("Deu XABU no post meu consagrado, resolve ai!");
+    alert("Deu XABU no post meu consagrado, resolve ai!"); //XABU PRA RESOLVER
 }
 
 function requestAcepted(requestResponse){
     console.log(requestResponse);
+}
+
+let inputBar = document.querySelector(".input_bar input");
+
+function getUserText(){
+    console.log(inputBar); //XABU PRA RESOLVER
 }
