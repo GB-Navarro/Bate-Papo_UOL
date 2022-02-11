@@ -22,11 +22,11 @@ function getMessages(promisseResponse){
 
 function populateMessages(messages){
     for(let i =0; i < messages.length; i++){
-        if(messages[i].to == "Todos" || messages[i].to == "todos"){
+        if(messages[i].type === "message" && (messages[i].to === "todos" || messages[i].to === "Todos")){
             messagesToAll(element, messages[i]);
-        }else if(messages[i].text == "entra na sala ..." || messages[i].text == "sai da sala ..."){
+        }else if(messages[i].type === "status"){
             messagesEntryOrOut(element, messages[i]);
-        }else{
+        }else if(messages[i].type ==="message" && (messages[i].to != "todos" || messages[i].to != "Todos")){
             messagesToOne(element, messages[i]);
         }
     }
@@ -36,14 +36,14 @@ function getNewMessages(){
     let promisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     promisse.then(getMessages);
 }
-//setInterval(getNewMessages, 3000);
+setInterval(getNewMessages, 3000);
 
 function messagesToAll(element, messageAll){
     element.innerHTML += 
             `
             <div class="message_to_all">
                 <p> 
-                    <span class="message_time"> (09:22:28) </span> 
+                    <span class="message_time">${messageAll.time}</span> 
                     <span class="from"> <b>${messageAll.from}</b> </span> 
                     para 
                     <span class="message_type"> <b>Todos:</b> </span> 
@@ -58,7 +58,7 @@ function messagesEntryOrOut(element, messageEntryOut){
             `
             <div class="room_entryORout">
                 <p> 
-                    <span class="message_time"> (09:21:45) </span> 
+                    <span class="message_time">(${messageEntryOut.time})</span> 
                     <span class="from"> ${messageEntryOut.from} </span> 
                     <span class="message_type"> ${messageEntryOut.text} </span> 
                 </p>
@@ -71,7 +71,7 @@ function messagesToOne(element, messageOne){
     `
     <div class="message_to_one">
         <p> 
-            <span class="message_time"> (09:22:38) </span> 
+            <span class="message_time">${messageOne.time}</span> 
             <span class="from"> <b>${messageOne.from}</b> </span> 
             para 
             <span class="to"> ${messageOne.to} </span> 
@@ -108,12 +108,6 @@ function requestAcepted(requestResponse){
     }
 }
 
-let inputBar = document.querySelector(".input_bar input");
-
-function getUserText(){
-    console.log(inputBar); //XABU PRA RESOLVER
-}
-
 function checkUserStatus(user){
     let statusResponse = axios.post("https://mock-api.driven.com.br/api/v4/uol/status", user);
     statusResponse.then(userOn);
@@ -135,3 +129,9 @@ function userOff(user){
         `
 }
 setInterval(checkUserStatus(user), 5000);
+
+let inputBarText = document.querySelector(".input_bar_text");
+function getUserText(){
+    inputBarText.innerHTML = "";
+
+}

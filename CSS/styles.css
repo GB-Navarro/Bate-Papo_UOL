@@ -44,6 +44,13 @@ main .message_to_all{
     display:flex;
     align-items: center;
 }
+main .message_to_one{
+    width: 100%;
+    height: 40px;
+    background-color: #FFFFFF;
+    display:flex;
+    align-items: center;
+}
 main .reserved_message{
     width: 100%;
     height: 40px;
@@ -77,4 +84,5 @@ footer .input_bar_text{
     position: absolute;
     top: 8px;
 }
+
 
