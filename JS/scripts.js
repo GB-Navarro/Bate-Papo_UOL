@@ -27,14 +27,16 @@ function populateMessages(messages){
         }
     }
     const messages_array = document.querySelectorAll(".message");
+    console.log(messages_array)
     messages_array[messages_array.length - 1].scrollIntoView();
 }
 
 function getNewMessages(){
     let promisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     promisse.then(getMessages);
+    element.innerHTML = "";
 }
-//setInterval(getNewMessages, 3000);
+setInterval(getNewMessages, 3000);
 
 function messagesToAll(element, messageAll){
     element.innerHTML += 
