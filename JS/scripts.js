@@ -26,6 +26,8 @@ function populateMessages(messages){
             messagesToOne(element, messages[i]);
         }
     }
+    const messages_array = document.querySelectorAll(".message");
+    messages_array[messages_array.length - 1].scrollIntoView();
 }
 
 function getNewMessages(){
@@ -37,7 +39,7 @@ function getNewMessages(){
 function messagesToAll(element, messageAll){
     element.innerHTML += 
             `
-            <div class="message_to_all" data-identifier="message">
+            <div class="message_to_all message" data-identifier="message">
                 <p> 
                     <span class="message_time">${messageAll.time}</span> 
                     <span class="from"> <b>${messageAll.from}</b> </span> 
@@ -52,7 +54,7 @@ function messagesToAll(element, messageAll){
 function messagesEntryOrOut(element, messageEntryOut){
     element.innerHTML += 
             `
-            <div class="room_entryORout" data-identifier="message">
+            <div class="room_entryORout message" data-identifier="message">
                 <p> 
                     <span class="message_time">(${messageEntryOut.time})</span> 
                     <span class="from"> ${messageEntryOut.from} </span> 
@@ -65,7 +67,7 @@ function messagesEntryOrOut(element, messageEntryOut){
 function messagesToOne(element, messageOne){
     element.innerHTML +=
     `
-    <div class="message_to_one" data-identifier="message">
+    <div class="message_to_one message" data-identifier="message">
         <p> 
             <span class="message_time">${messageOne.time}</span> 
             <span class="from"> <b>${messageOne.from}</b> </span> 
@@ -94,7 +96,7 @@ function requestAcepted(requestResponse){
     if(requestResponse.status === 200){
         element.innerHTML += 
         `
-        <div class="room_entryORout" data-identifier="message">
+        <div class="room_entryORout message" data-identifier="message">
             <p> 
                 <span class="message_time"> (09:21:45) </span> 
                 <span class="from"> ${user.name} </span> 
@@ -121,7 +123,7 @@ function verifyUserStatus(userStatusResponse){
 function userOff(user){
     element.innerHTML += 
         `
-        <div class="room_entryORout" data-identifier="message">
+        <div class="room_entryORout message" data-identifier="message">
             <p> 
                 <span class="message_time"> (09:21:45) </span> 
                 <span class="from"> ${user.name} </span> 
