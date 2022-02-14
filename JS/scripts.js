@@ -3,7 +3,7 @@ promisse.then(getMessages);
 
 promisse.catch(getErrorTreatment);
 function getErrorTreatment(erro){
-    alert("Deu XABU no get meu jovem, resolve ai!");
+    alert("Deu XABU no get meu jovem, resolve ai!"); //Ver isso
 }
 
 
@@ -143,10 +143,9 @@ function getUserMessage(){
     const userMessage = document.querySelector("input").value;
     let userInfo = {from: "", to: "", text: "",type: ""}
     userInfo.from = userName;
-    userInfo.to = "todos";
+    userInfo.to = "Todos";
     userInfo.text = userMessage;
     userInfo.type = "message";
-    console.log(userInfo);
     sendUserMessage(userInfo);
 }
 
@@ -158,8 +157,10 @@ function sendUserMessage(userInfo){
 
 function checkUserMessageResponse(userMessageResponse){
     if(userMessageResponse === 200){
-        console.log("A mensagem foi enviada");
+        let newPromisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
+        newPromisse.then(getMessages);
+        newPromisse.catch(getErrorTreatment);
     }else{
-        console.log("Deu ruim");
+        window.location.reload();
     }
 }
