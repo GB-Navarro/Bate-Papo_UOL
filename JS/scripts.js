@@ -156,7 +156,7 @@ function sendUserMessage(userInfo){
 function checkUserMessageResponse(userMessageResponse){
     let newPromisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     newPromisse.then(getMessages);
-    newPromisse.catch(userMessageResponse.catch(() => {window.location.reload()}));
+    newPromisse.catch(() => {window.location.reload()})
 
 }
 
@@ -168,7 +168,7 @@ const input = document.querySelector("input")
 input.addEventListener('keyup', function(e){
     var key = e.keyCode;
     if (key == 13) {
-      clearUserMessage();
       getUserMessage();
+      clearUserMessage();
     }
   });
