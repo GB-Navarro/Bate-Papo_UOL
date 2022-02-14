@@ -17,6 +17,7 @@ function getMessages(promisseResponse){
 }
 
 function populateMessages(messages){
+    element.innerHTML = "";
     for(let i =0; i < messages.length; i++){
         if(messages[i].type === "message" && (messages[i].to === "todos" || messages[i].to === "Todos")){
             messagesToAll(element, messages[i]);
@@ -34,7 +35,7 @@ function populateMessages(messages){
 function getNewMessages(){
     let promisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     promisse.then(getMessages);
-    element.innerHTML = "";
+    
 }
 setInterval(getNewMessages, 3000);
 
