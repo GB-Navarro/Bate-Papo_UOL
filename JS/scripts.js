@@ -156,11 +156,7 @@ function sendUserMessage(userInfo){
 }
 
 function checkUserMessageResponse(userMessageResponse){
-    if(userMessageResponse === 200){
-        let newPromisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
-        newPromisse.then(getMessages);
-        newPromisse.catch(getErrorTreatment);
-    }else{
-        window.location.reload();
-    }
+    let newPromisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
+    newPromisse.then(getMessages);
+    newPromisse.catch(userMessageRequest.catch(() =>{window.location.reload()}));
 }
