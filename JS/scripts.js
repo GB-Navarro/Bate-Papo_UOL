@@ -9,14 +9,11 @@ function getErrorTreatment(erro){
 
 let arrayMessages = [];
 let element = document.querySelector("main");
-console.log(element);
 
 function getMessages(promisseResponse){
     for(let i = 0; i < promisseResponse.data.length; i++){
         arrayMessages[i] = promisseResponse.data[i];
     }
-    console.log(promisseResponse);
-    console.log(arrayMessages);
     populateMessages(arrayMessages);
 }
 
@@ -36,7 +33,7 @@ function getNewMessages(){
     let promisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     promisse.then(getMessages);
 }
-setInterval(getNewMessages, 3000);
+//setInterval(getNewMessages, 3000);
 
 function messagesToAll(element, messageAll){
     element.innerHTML += 
@@ -83,10 +80,11 @@ function messagesToOne(element, messageOne){
 
 let user = {name: ""};
 user.name = prompt("Qual é o seu nome ?");
+userName = user.name;
 let request = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants", user);
 request.then(requestAcepted);
-
 request.catch(postErrorTreatment)
+
 function postErrorTreatment(error){
     if(error.status === 409){
         alert("Esse nome já está sendo usado, tente novamente com outro nome"); //CONFERIR
@@ -110,12 +108,17 @@ function requestAcepted(requestResponse){
 
 function checkUserStatus(user){
     let statusResponse = axios.post("https://mock-api.driven.com.br/api/v4/uol/status", user);
-    statusResponse.then(userOn);
-    statusResponse.catch(userOff(user));
+    statusResponse.then(verifyUserStatus);
+    
 }
-function userOn(){
-    console.log("O usuário continua na sala");
+function verifyUserStatus(userStatusResponse){
+    if(userStatusResponse.status === 200){
+        console.log("O usuário continua na sala");
+    }else{
+        statusResponse.catch(userOff(user));
+    }
 }
+
 function userOff(user){
     element.innerHTML += 
         `
@@ -128,10 +131,9 @@ function userOff(user){
         </div>
         `
 }
-setInterval(checkUserStatus(user), 5000);
 
-let inputBarText = document.querySelector(".input_bar_text");
-function getUserText(){
-    inputBarText.innerHTML = "";
-
+function checkAgain(){
+    checkUserStatus(user)
 }
+setInterval(checkAgain, 5000);
+
