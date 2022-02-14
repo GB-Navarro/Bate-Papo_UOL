@@ -22,6 +22,7 @@ header .logo{
 }
 header .people_icon{
     margin-right: 22px;
+    font-size: 35px;
 }
 
 /*---------------------------------------------------*/
@@ -79,6 +80,7 @@ footer .input_bar{
 }
 footer .send_icon{
     margin-right: 22px;
+    font-size: 25px;
 }
 footer .input_bar_text{
     position: absolute;

@@ -3,9 +3,8 @@ promisse.then(getMessages);
 
 promisse.catch(getErrorTreatment);
 function getErrorTreatment(erro){
-    alert("Deu XABU no get meu jovem, resolve ai!"); //Ver isso
+    alert("Ocorreu algum problema com a conexão com o servidor! Tente novamente.");
 }
-
 
 let arrayMessages = [];
 let element = document.querySelector("main");
@@ -38,7 +37,7 @@ function getNewMessages(){
 function messagesToAll(element, messageAll){
     element.innerHTML += 
             `
-            <div class="message_to_all">
+            <div class="message_to_all" data-identifier="message">
                 <p> 
                     <span class="message_time">${messageAll.time}</span> 
                     <span class="from"> <b>${messageAll.from}</b> </span> 
@@ -53,7 +52,7 @@ function messagesToAll(element, messageAll){
 function messagesEntryOrOut(element, messageEntryOut){
     element.innerHTML += 
             `
-            <div class="room_entryORout">
+            <div class="room_entryORout" data-identifier="message">
                 <p> 
                     <span class="message_time">(${messageEntryOut.time})</span> 
                     <span class="from"> ${messageEntryOut.from} </span> 
@@ -66,7 +65,7 @@ function messagesEntryOrOut(element, messageEntryOut){
 function messagesToOne(element, messageOne){
     element.innerHTML +=
     `
-    <div class="message_to_one">
+    <div class="message_to_one" data-identifier="message">
         <p> 
             <span class="message_time">${messageOne.time}</span> 
             <span class="from"> <b>${messageOne.from}</b> </span> 
@@ -87,7 +86,7 @@ request.catch(postErrorTreatment)
 
 function postErrorTreatment(error){
     if(error.status === 409){
-        alert("Esse nome já está sendo usado, tente novamente com outro nome"); //CONFERIR
+        alert("Esse nome já está sendo usado, tente novamente com outro nome");
     }
 }
 
@@ -95,7 +94,7 @@ function requestAcepted(requestResponse){
     if(requestResponse.status === 200){
         element.innerHTML += 
         `
-        <div class="room_entryORout">
+        <div class="room_entryORout" data-identifier="message">
             <p> 
                 <span class="message_time"> (09:21:45) </span> 
                 <span class="from"> ${user.name} </span> 
@@ -122,7 +121,7 @@ function verifyUserStatus(userStatusResponse){
 function userOff(user){
     element.innerHTML += 
         `
-        <div class="room_entryORout">
+        <div class="room_entryORout" data-identifier="message">
             <p> 
                 <span class="message_time"> (09:21:45) </span> 
                 <span class="from"> ${user.name} </span> 
@@ -137,8 +136,6 @@ function checkAgain(){
 }
 setInterval(checkAgain, 5000);
 
-/*-------------------------------------------------------------------------------------------------------------------*/
-
 function getUserMessage(){
     const userMessage = document.querySelector("input").value;
     let userInfo = {from: "", to: "", text: "",type: ""}
@@ -147,6 +144,7 @@ function getUserMessage(){
     userInfo.text = userMessage;
     userInfo.type = "message";
     sendUserMessage(userInfo);
+    clearUserMessage();
 }
 
 function sendUserMessage(userInfo){
@@ -158,5 +156,19 @@ function sendUserMessage(userInfo){
 function checkUserMessageResponse(userMessageResponse){
     let newPromisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     newPromisse.then(getMessages);
-    newPromisse.catch(userMessageRequest.catch(() =>{window.location.reload()}));
+    newPromisse.catch(userMessageResponse.catch(() => {window.location.reload()}));
+
 }
+
+function clearUserMessage(){
+    document.querySelector("input").value = "";
+}
+
+const input = document.querySelector("input")
+input.addEventListener('keyup', function(e){
+    var key = e.keyCode;
+    if (key == 13) {
+      clearUserMessage();
+      getUserMessage();
+    }
+  });
