@@ -137,3 +137,29 @@ function checkAgain(){
 }
 setInterval(checkAgain, 5000);
 
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+function getUserMessage(){
+    const userMessage = document.querySelector("input").value;
+    let userInfo = {from: "", to: "", text: "",type: ""}
+    userInfo.from = userName;
+    userInfo.to = "todos";
+    userInfo.text = userMessage;
+    userInfo.type = "message";
+    console.log(userInfo);
+    sendUserMessage(userInfo);
+}
+
+function sendUserMessage(userInfo){
+    let userMessageRequest = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", userInfo);
+    userMessageRequest.then(checkUserMessageResponse);
+    userMessageRequest.catch(checkUserMessageResponse);
+}
+
+function checkUserMessageResponse(userMessageResponse){
+    if(userMessageResponse === 200){
+        console.log("A mensagem foi enviada");
+    }else{
+        console.log("Deu ruim");
+    }
+}
